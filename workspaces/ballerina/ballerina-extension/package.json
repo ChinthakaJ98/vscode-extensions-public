@@ -213,14 +213,6 @@
                     "default": true,
                     "description": "Enable AI suggestions in the Flow Diagram View."
                 },
-                "ballerina.includeCurrentOrganizationInSearch": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Include components from the current organization in the search. This queries the Ballerina Central using the organization specified in the `Ballerina.toml`.",
-                    "tags": [
-                        "experimental"
-                    ]
-                },
                 "ballerina.showAdvancedAiNodes": {
                     "type": "boolean",
                     "default": false,
@@ -973,21 +965,21 @@
                 "description": "design-view",
                 "default": {
                     "fontPath": "./resources/font-wso2-vscode/dist/wso2-vscode.woff",
-                    "fontCharacter": "\\f180"
+                    "fontCharacter": "\\f182"
                 }
             },
             "distro-start": {
                 "description": "start",
                 "default": {
                     "fontPath": "./resources/font-wso2-vscode/dist/wso2-vscode.woff",
-                    "fontCharacter": "\\f1f5"
+                    "fontCharacter": "\\f1f7"
                 }
             },
             "distro-debug": {
                 "description": "debug",
                 "default": {
                     "fontPath": "./resources/font-wso2-vscode/dist/wso2-vscode.woff",
-                    "fontCharacter": "\\f17b"
+                    "fontCharacter": "\\f17d"
                 }
             },
             "distro-source-view": {
@@ -1001,7 +993,7 @@
                 "description": "persist-diagram",
                 "default": {
                     "fontPath": "./resources/font-wso2-vscode/dist/wso2-vscode.woff",
-                    "fontCharacter": "\\f1d0"
+                    "fontCharacter": "\\f1d2"
                 }
             },
             "distro-cached-rounded": {
