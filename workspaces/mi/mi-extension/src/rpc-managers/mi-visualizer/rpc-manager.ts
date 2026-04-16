@@ -90,7 +90,7 @@ import { copy } from 'fs-extra';
 const fs = require('fs');
 import { TextEdit } from "vscode-languageclient";
 import { downloadJavaFromMI, downloadMI, getProjectSetupDetails, getSupportedMIVersionsHigherThan, setPathsInWorkSpace, updateRuntimeVersionsInPom, getMIVersionFromPom } from '../../util/onboardingUtils';
-import { extractCAppDependenciesAsProjects } from "../../visualizer/activate";
+import { extractCAppDependenciesAsProjects, loadCAppResources } from "../../visualizer/activate";
 import { findMultiModuleProjectsInWorkspaceDir } from "../../util/migrationUtils";
 import { MILanguageClient } from "../../lang-client/activator";
 
@@ -202,23 +202,6 @@ export class MiVisualizerRpcManager implements MIVisualizerAPI {
             await this.updatePom(res.textEdits);
             resolve(true);
         })
-    }
-
-    /**
-     * Extracts CApp dependencies as projects and loads dependent CApp resources.
-     *
-     * @param langClient - The language client instance.
-     */
-    private async _loadCAppResources(langClient: Awaited<ReturnType<typeof MILanguageClient.getInstance>>): Promise<void> {
-        try {
-            await extractCAppDependenciesAsProjects(this.projectUri);
-            const loadResult = await langClient?.loadDependentCAppResources();
-            if (loadResult.startsWith("DUPLICATE ARTIFACTS")) {
-                await window.showWarningMessage(loadResult, { modal: true });
-            }
-        } catch (error) {
-            console.error("Failed to load CApp resources:", error);
-        }
     }
 
     /**
@@ -334,7 +317,7 @@ export class MiVisualizerRpcManager implements MIVisualizerAPI {
                 }
             }
 
-            await this._loadCAppResources(langClient);
+            await loadCAppResources(this.projectUri, langClient);
             resolve(reloadDependenciesResult);
         });
     }
@@ -450,7 +433,7 @@ export class MiVisualizerRpcManager implements MIVisualizerAPI {
     async refetchIntegrationProjectDependencies(): Promise<string> {
         const langClient = await MILanguageClient.getInstance(this.projectUri);
         const res = await langClient.refetchIntegrationProjectDependencies();
-        await this._loadCAppResources(langClient);
+        await loadCAppResources(this.projectUri, langClient);
         return res;
     }
 
