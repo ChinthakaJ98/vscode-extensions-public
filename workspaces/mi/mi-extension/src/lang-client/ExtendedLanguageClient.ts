@@ -477,4 +477,8 @@ export class ExtendedLanguageClient extends LanguageClient {
     async getInputOutputMappings(req: GenerateMappingsParamsRequest): Promise<string[]> {
         return this.sendRequest('synapse/getInputOutputMappings', req);
     }
+
+    async isDuplicateConnector(params: string): Promise<any> {
+        return this.sendRequest("synapse/isDuplicateConnector", { connectorPath: params });
+    }
 }
